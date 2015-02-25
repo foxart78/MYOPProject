@@ -1,4 +1,9 @@
-﻿
+﻿@*
+    NOTE PER L'UTILIZZO DI JTABLE
+    1) le proprietà title di "fields" devono rispettare i nomi dell'oggetto utilizzato lato server
+    2) qualora non funzionasse l'intellisense verificare l'ordine di chiamata dei file .js presenti in _references.js
+    3) il metodo di cancellazione si aspetta come parametro un int con lo stesso nome della colonna chiave della tabella jtable (nel nostro caso PersonId)
+*@
 
 @{
     ViewBag.Title = "jtable";
@@ -18,8 +23,8 @@
             actions: {
                 listAction: '@Url.Action("PersonList")',
                 createAction: '@Url.Action("CreatePerson")',
-                updateAction: '/Home/UpdatePerson',
-                deleteAction: '/Home/DeletePerson'
+                updateAction: '@Url.Action("UpdatePerson")',
+                deleteAction: '@Url.Action("DeletePerson")'
             },
             fields: {
                 PersonId: {

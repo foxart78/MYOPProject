@@ -59,13 +59,13 @@ namespace ABCDemo2.Controllers
                 List<Persona> persons = new List<Persona>()
                 {
                     new Persona(){
-                        PersonID = 1,
+                        PersonId = 1,
                         Name = "Giuseppe",
                         Age = 36,
                         RecordDate = DateTime.Today
                     },
                     new Persona(){
-                        PersonID = 2,
+                        PersonId = 2,
                         Name = "Pippo",
                         Age = 36,
                         RecordDate = DateTime.Today
@@ -90,6 +90,32 @@ namespace ABCDemo2.Controllers
             catch (Exception ex)
             {
                 return Json(new { Result = "ERROR", Message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult UpdatePerson(Persona person)
+        {
+            try
+            {
+                return Json(new {Result = "OK"});
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Result = "ERROR", Message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult DeletePerson(int PersonId)
+        {
+            try
+            {
+                return Json(new {Result = "OK" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new {Result ="ERROR", Message = ex.Message });
             }
         }
 
