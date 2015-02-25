@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+
+    <script src="jquery-1.10.2.min.js" type="text/javascript"></script>
+    <script src="jquery-ui-1.9.2.min.js" type="text/javascript"></script>
+    <script src="jtable/jquery.jtable.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        
+    $(document).ready(function () {
+        $("#test").jtable({
+            title: 'test table',
+            actions: {
+                createAction: '/Home/Index'
+            },
+            fields: {
+                Campo1: {
+                    title: 'Campo 1',
+                    width: '30%'
+                },
+                Campo2: {
+                    title: 'Campo 2',
+                    width: '70%'
+                }
+            }
+        });
+    });
+    </script>
+
+</head>
+<body>
+    <div id="test"></div>
+</body>
+</html>

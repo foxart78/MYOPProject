@@ -1,0 +1,51 @@
+﻿
+
+@{
+    ViewBag.Title = "jtable";
+}
+
+<h2>jtable</h2>
+
+<div id="TabellaPersone"></div>
+
+@section scripts
+    {
+<script src="@Url.Content("~/Scripts/jtable/jquery.jtable.js")"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#TabellaPersone").jtable({
+            title: 'Tabella Persone',
+            actions: {
+                listAction: '@Url.Action("PersonList")',
+                createAction: '@Url.Action("CreatePerson")',
+                updateAction: '/Home/UpdatePerson',
+                deleteAction: '/Home/DeletePerson'
+            },
+            fields: {
+                PersonId: {
+                    key: true,
+                    list: false
+                },
+                Name: {
+                    title: 'Author Name',
+                    width: '40%'
+                },
+                Age: {
+                    title: 'Age',
+                    width: '20%'
+                },
+                RecordDate: {
+                    title: 'Record date',
+                    width: '30%',
+                    type: 'date',
+                    create: false,
+                    edit: false
+                }
+            }
+        });
+
+        $("#TabellaPersone").jtable('load');
+
+    });
+</script>
+}
