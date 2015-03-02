@@ -39,10 +39,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -106,12 +116,6 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.1.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
@@ -168,6 +172,45 @@
     <Compile Include="Models\Demo1\Persona.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\MyOpModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MyOpModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MyOpModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MyOpModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MyOpModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MyOpModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblArticoli.cs">
+      <DependentUpon>MyOpModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblArticoliPrezzi.cs">
+      <DependentUpon>MyOpModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblArticoliQualifiche.cs">
+      <DependentUpon>MyOpModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblInvestimenti.cs">
+      <DependentUpon>MyOpModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblQualifiche.cs">
+      <DependentUpon>MyOpModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblUtenti.cs">
+      <DependentUpon>MyOpModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblUtentiArticoliQualifiche.cs">
+      <DependentUpon>MyOpModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblVendite.cs">
+      <DependentUpon>MyOpModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -240,6 +283,23 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <EntityDeploy Include="Models\MyOpModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>MyOpModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\MyOpModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MyOpModel.edmx</DependentUpon>
+      <LastGenOutput>MyOpModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\MyOpModel.edmx.diagram">
+      <DependentUpon>MyOpModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\MyOpModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MyOpModel.edmx</DependentUpon>
+      <LastGenOutput>MyOpModel.cs</LastGenOutput>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Chart\Chart.js" />
     <Content Include="Scripts\Chart\Chart.min.js" />
@@ -367,7 +427,9 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\test2.html" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -432,8 +494,13 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,0 +1,609 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="myOpDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblArticoli">
+          <Key>
+            <PropertyRef Name="IDArticolo" />
+          </Key>
+          <Property Name="IDArticolo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CodiceArticolo" Type="varchar" MaxLength="15" />
+          <Property Name="DescrizioneArticolo" Type="varchar" MaxLength="50" />
+          <Property Name="WebLinkArticolo" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tblArticoliPrezzi">
+          <Key>
+            <PropertyRef Name="IDArticoloPrezzo" />
+          </Key>
+          <Property Name="IDArticoloPrezzo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDArticolo" Type="int" />
+          <Property Name="TipoPrezzo" Type="varchar" MaxLength="30" />
+          <Property Name="Prezzo" Type="decimal" Precision="12" Scale="3" />
+          <Property Name="DescrizionePrezzo" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tblArticoliQualifiche">
+          <Key>
+            <PropertyRef Name="IDArticoloQualifica" />
+          </Key>
+          <Property Name="IDArticoloQualifica" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDArticolo" Type="int" />
+          <Property Name="IDQualifica" Type="int" />
+          <Property Name="Percentuale" Type="decimal" Precision="6" Scale="2" />
+        </EntityType>
+        <EntityType Name="tblInvestimenti">
+          <Key>
+            <PropertyRef Name="IDInvestimento" />
+          </Key>
+          <Property Name="IDInvestimento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDUtente" Type="int" />
+          <Property Name="IDArticolo" Type="int" />
+          <Property Name="DataInvestimento" Type="datetime" />
+          <Property Name="Finalita" Type="varchar" MaxLength="50" />
+          <Property Name="Investimento" Type="decimal" Precision="12" Scale="3" />
+        </EntityType>
+        <EntityType Name="tblQualifiche">
+          <Key>
+            <PropertyRef Name="IDQualifica" />
+          </Key>
+          <Property Name="IDQualifica" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CodiceQualifica" Type="varchar" MaxLength="10" />
+          <Property Name="DescrizioneQualifica" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tblUtenti">
+          <Key>
+            <PropertyRef Name="IDUtente" />
+          </Key>
+          <Property Name="IDUtente" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="10" />
+          <Property Name="Password" Type="varchar" MaxLength="10" />
+          <Property Name="DataInserimento" Type="datetime" />
+          <Property Name="NomeUtente" Type="varchar" MaxLength="30" />
+          <Property Name="CognomeUtente" Type="varchar" MaxLength="30" />
+          <Property Name="RagioneSociale" Type="varchar" MaxLength="50" />
+          <Property Name="IndirizzoSedeLegale" Type="varchar" MaxLength="50" />
+          <Property Name="CittaSedeLegale" Type="varchar" MaxLength="50" />
+          <Property Name="IndirizzoSedeOperativa1" Type="varchar" MaxLength="50" />
+          <Property Name="CittaSedeOperativa1" Type="varchar" MaxLength="50" />
+          <Property Name="IndirizzoSedeOperativa2" Type="varchar" MaxLength="50" />
+          <Property Name="CittaSedeOperativa2" Type="varchar" MaxLength="50" />
+          <Property Name="IndirizzoSedeOperativa3" Type="varchar" MaxLength="50" />
+          <Property Name="CittaSedeOperativa3" Type="varchar" MaxLength="50" />
+          <Property Name="Telefono" Type="varchar" MaxLength="20" />
+          <Property Name="Fax" Type="varchar" MaxLength="20" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="Pec" Type="varchar" MaxLength="50" />
+          <Property Name="SitoWeb" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tblUtentiArticoliQualifiche">
+          <Key>
+            <PropertyRef Name="IDUtenteArticoloQualifica" />
+          </Key>
+          <Property Name="IDUtenteArticoloQualifica" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDUtente" Type="int" />
+          <Property Name="IDArticoloQualifica" Type="int" />
+        </EntityType>
+        <EntityType Name="tblVendite">
+          <Key>
+            <PropertyRef Name="IDVendita" />
+          </Key>
+          <Property Name="IDVendita" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDArticoloPrezzo" Type="int" />
+          <Property Name="DataVendita" Type="datetime" />
+          <Property Name="QuantitaVendita" Type="decimal" Precision="12" Scale="3" />
+        </EntityType>
+        <Association Name="FK_ArticoliQualifiche_Articoli">
+          <End Role="tblArticoli" Type="Self.tblArticoli" Multiplicity="0..1" />
+          <End Role="tblArticoliQualifiche" Type="Self.tblArticoliQualifiche" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblArticoli">
+              <PropertyRef Name="IDArticolo" />
+            </Principal>
+            <Dependent Role="tblArticoliQualifiche">
+              <PropertyRef Name="IDArticolo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ArticoliQualifiche_Qualifiche">
+          <End Role="tblQualifiche" Type="Self.tblQualifiche" Multiplicity="0..1" />
+          <End Role="tblArticoliQualifiche" Type="Self.tblArticoliQualifiche" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblQualifiche">
+              <PropertyRef Name="IDQualifica" />
+            </Principal>
+            <Dependent Role="tblArticoliQualifiche">
+              <PropertyRef Name="IDQualifica" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Investimenti_Articoli">
+          <End Role="tblArticoli" Type="Self.tblArticoli" Multiplicity="0..1" />
+          <End Role="tblInvestimenti" Type="Self.tblInvestimenti" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblArticoli">
+              <PropertyRef Name="IDArticolo" />
+            </Principal>
+            <Dependent Role="tblInvestimenti">
+              <PropertyRef Name="IDArticolo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Investimenti_Utenti">
+          <End Role="tblUtenti" Type="Self.tblUtenti" Multiplicity="0..1" />
+          <End Role="tblInvestimenti" Type="Self.tblInvestimenti" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUtenti">
+              <PropertyRef Name="IDUtente" />
+            </Principal>
+            <Dependent Role="tblInvestimenti">
+              <PropertyRef Name="IDUtente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Prezzi_Articoli">
+          <End Role="tblArticoli" Type="Self.tblArticoli" Multiplicity="0..1" />
+          <End Role="tblArticoliPrezzi" Type="Self.tblArticoliPrezzi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblArticoli">
+              <PropertyRef Name="IDArticolo" />
+            </Principal>
+            <Dependent Role="tblArticoliPrezzi">
+              <PropertyRef Name="IDArticolo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UtentiArticoliQualifiche_ArticoliQualifiche">
+          <End Role="tblArticoliQualifiche" Type="Self.tblArticoliQualifiche" Multiplicity="0..1" />
+          <End Role="tblUtentiArticoliQualifiche" Type="Self.tblUtentiArticoliQualifiche" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblArticoliQualifiche">
+              <PropertyRef Name="IDArticoloQualifica" />
+            </Principal>
+            <Dependent Role="tblUtentiArticoliQualifiche">
+              <PropertyRef Name="IDArticoloQualifica" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UtentiArticoliQualifiche_Utenti">
+          <End Role="tblUtenti" Type="Self.tblUtenti" Multiplicity="0..1" />
+          <End Role="tblUtentiArticoliQualifiche" Type="Self.tblUtentiArticoliQualifiche" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUtenti">
+              <PropertyRef Name="IDUtente" />
+            </Principal>
+            <Dependent Role="tblUtentiArticoliQualifiche">
+              <PropertyRef Name="IDUtente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vendite_ArticoliPrezzi">
+          <End Role="tblArticoliPrezzi" Type="Self.tblArticoliPrezzi" Multiplicity="0..1" />
+          <End Role="tblVendite" Type="Self.tblVendite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblArticoliPrezzi">
+              <PropertyRef Name="IDArticoloPrezzo" />
+            </Principal>
+            <Dependent Role="tblVendite">
+              <PropertyRef Name="IDArticoloPrezzo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="myOpDBModelStoreContainer">
+          <EntitySet Name="tblArticoli" EntityType="Self.tblArticoli" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblArticoliPrezzi" EntityType="Self.tblArticoliPrezzi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblArticoliQualifiche" EntityType="Self.tblArticoliQualifiche" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblInvestimenti" EntityType="Self.tblInvestimenti" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblQualifiche" EntityType="Self.tblQualifiche" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblUtenti" EntityType="Self.tblUtenti" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblUtentiArticoliQualifiche" EntityType="Self.tblUtentiArticoliQualifiche" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblVendite" EntityType="Self.tblVendite" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ArticoliQualifiche_Articoli" Association="Self.FK_ArticoliQualifiche_Articoli">
+            <End Role="tblArticoli" EntitySet="tblArticoli" />
+            <End Role="tblArticoliQualifiche" EntitySet="tblArticoliQualifiche" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ArticoliQualifiche_Qualifiche" Association="Self.FK_ArticoliQualifiche_Qualifiche">
+            <End Role="tblQualifiche" EntitySet="tblQualifiche" />
+            <End Role="tblArticoliQualifiche" EntitySet="tblArticoliQualifiche" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Investimenti_Articoli" Association="Self.FK_Investimenti_Articoli">
+            <End Role="tblArticoli" EntitySet="tblArticoli" />
+            <End Role="tblInvestimenti" EntitySet="tblInvestimenti" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Investimenti_Utenti" Association="Self.FK_Investimenti_Utenti">
+            <End Role="tblUtenti" EntitySet="tblUtenti" />
+            <End Role="tblInvestimenti" EntitySet="tblInvestimenti" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Prezzi_Articoli" Association="Self.FK_Prezzi_Articoli">
+            <End Role="tblArticoli" EntitySet="tblArticoli" />
+            <End Role="tblArticoliPrezzi" EntitySet="tblArticoliPrezzi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UtentiArticoliQualifiche_ArticoliQualifiche" Association="Self.FK_UtentiArticoliQualifiche_ArticoliQualifiche">
+            <End Role="tblArticoliQualifiche" EntitySet="tblArticoliQualifiche" />
+            <End Role="tblUtentiArticoliQualifiche" EntitySet="tblUtentiArticoliQualifiche" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UtentiArticoliQualifiche_Utenti" Association="Self.FK_UtentiArticoliQualifiche_Utenti">
+            <End Role="tblUtenti" EntitySet="tblUtenti" />
+            <End Role="tblUtentiArticoliQualifiche" EntitySet="tblUtentiArticoliQualifiche" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vendite_ArticoliPrezzi" Association="Self.FK_Vendite_ArticoliPrezzi">
+            <End Role="tblArticoliPrezzi" EntitySet="tblArticoliPrezzi" />
+            <End Role="tblVendite" EntitySet="tblVendite" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="myOpDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tblArticoli">
+          <Key>
+            <PropertyRef Name="IDArticolo" />
+          </Key>
+          <Property Name="IDArticolo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CodiceArticolo" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="DescrizioneArticolo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="WebLinkArticolo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblArticoliQualifiche" Relationship="Self.FK_ArticoliQualifiche_Articoli" FromRole="tblArticoli" ToRole="tblArticoliQualifiche" />
+          <NavigationProperty Name="tblInvestimenti" Relationship="Self.FK_Investimenti_Articoli" FromRole="tblArticoli" ToRole="tblInvestimenti" />
+          <NavigationProperty Name="tblArticoliPrezzi" Relationship="Self.FK_Prezzi_Articoli" FromRole="tblArticoli" ToRole="tblArticoliPrezzi" />
+        </EntityType>
+        <EntityType Name="tblArticoliPrezzi">
+          <Key>
+            <PropertyRef Name="IDArticoloPrezzo" />
+          </Key>
+          <Property Name="IDArticoloPrezzo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDArticolo" Type="Int32" />
+          <Property Name="TipoPrezzo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Prezzo" Type="Decimal" Precision="12" Scale="3" />
+          <Property Name="DescrizionePrezzo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblArticoli" Relationship="Self.FK_Prezzi_Articoli" FromRole="tblArticoliPrezzi" ToRole="tblArticoli" />
+          <NavigationProperty Name="tblVendite" Relationship="Self.FK_Vendite_ArticoliPrezzi" FromRole="tblArticoliPrezzi" ToRole="tblVendite" />
+        </EntityType>
+        <EntityType Name="tblArticoliQualifiche">
+          <Key>
+            <PropertyRef Name="IDArticoloQualifica" />
+          </Key>
+          <Property Name="IDArticoloQualifica" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDArticolo" Type="Int32" />
+          <Property Name="IDQualifica" Type="Int32" />
+          <Property Name="Percentuale" Type="Decimal" Precision="6" Scale="2" />
+          <NavigationProperty Name="tblArticoli" Relationship="Self.FK_ArticoliQualifiche_Articoli" FromRole="tblArticoliQualifiche" ToRole="tblArticoli" />
+          <NavigationProperty Name="tblQualifiche" Relationship="Self.FK_ArticoliQualifiche_Qualifiche" FromRole="tblArticoliQualifiche" ToRole="tblQualifiche" />
+          <NavigationProperty Name="tblUtentiArticoliQualifiche" Relationship="Self.FK_UtentiArticoliQualifiche_ArticoliQualifiche" FromRole="tblArticoliQualifiche" ToRole="tblUtentiArticoliQualifiche" />
+        </EntityType>
+        <EntityType Name="tblInvestimenti">
+          <Key>
+            <PropertyRef Name="IDInvestimento" />
+          </Key>
+          <Property Name="IDInvestimento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDUtente" Type="Int32" />
+          <Property Name="IDArticolo" Type="Int32" />
+          <Property Name="DataInvestimento" Type="DateTime" Precision="3" />
+          <Property Name="Finalita" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Investimento" Type="Decimal" Precision="12" Scale="3" />
+          <NavigationProperty Name="tblArticoli" Relationship="Self.FK_Investimenti_Articoli" FromRole="tblInvestimenti" ToRole="tblArticoli" />
+          <NavigationProperty Name="tblUtenti" Relationship="Self.FK_Investimenti_Utenti" FromRole="tblInvestimenti" ToRole="tblUtenti" />
+        </EntityType>
+        <EntityType Name="tblQualifiche">
+          <Key>
+            <PropertyRef Name="IDQualifica" />
+          </Key>
+          <Property Name="IDQualifica" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CodiceQualifica" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DescrizioneQualifica" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblArticoliQualifiche" Relationship="Self.FK_ArticoliQualifiche_Qualifiche" FromRole="tblQualifiche" ToRole="tblArticoliQualifiche" />
+        </EntityType>
+        <EntityType Name="tblUtenti">
+          <Key>
+            <PropertyRef Name="IDUtente" />
+          </Key>
+          <Property Name="IDUtente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DataInserimento" Type="DateTime" Precision="3" />
+          <Property Name="NomeUtente" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CognomeUtente" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="RagioneSociale" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IndirizzoSedeLegale" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CittaSedeLegale" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IndirizzoSedeOperativa1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CittaSedeOperativa1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IndirizzoSedeOperativa2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CittaSedeOperativa2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IndirizzoSedeOperativa3" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CittaSedeOperativa3" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Fax" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Pec" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SitoWeb" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblInvestimenti" Relationship="Self.FK_Investimenti_Utenti" FromRole="tblUtenti" ToRole="tblInvestimenti" />
+          <NavigationProperty Name="tblUtentiArticoliQualifiche" Relationship="Self.FK_UtentiArticoliQualifiche_Utenti" FromRole="tblUtenti" ToRole="tblUtentiArticoliQualifiche" />
+        </EntityType>
+        <EntityType Name="tblUtentiArticoliQualifiche">
+          <Key>
+            <PropertyRef Name="IDUtenteArticoloQualifica" />
+          </Key>
+          <Property Name="IDUtenteArticoloQualifica" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDUtente" Type="Int32" />
+          <Property Name="IDArticoloQualifica" Type="Int32" />
+          <NavigationProperty Name="tblArticoliQualifiche" Relationship="Self.FK_UtentiArticoliQualifiche_ArticoliQualifiche" FromRole="tblUtentiArticoliQualifiche" ToRole="tblArticoliQualifiche" />
+          <NavigationProperty Name="tblUtenti" Relationship="Self.FK_UtentiArticoliQualifiche_Utenti" FromRole="tblUtentiArticoliQualifiche" ToRole="tblUtenti" />
+        </EntityType>
+        <EntityType Name="tblVendite">
+          <Key>
+            <PropertyRef Name="IDVendita" />
+          </Key>
+          <Property Name="IDVendita" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDArticoloPrezzo" Type="Int32" />
+          <Property Name="DataVendita" Type="DateTime" Precision="3" />
+          <Property Name="QuantitaVendita" Type="Decimal" Precision="12" Scale="3" />
+          <NavigationProperty Name="tblArticoliPrezzi" Relationship="Self.FK_Vendite_ArticoliPrezzi" FromRole="tblVendite" ToRole="tblArticoliPrezzi" />
+        </EntityType>
+        <Association Name="FK_ArticoliQualifiche_Articoli">
+          <End Role="tblArticoli" Type="Self.tblArticoli" Multiplicity="0..1" />
+          <End Role="tblArticoliQualifiche" Type="Self.tblArticoliQualifiche" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblArticoli">
+              <PropertyRef Name="IDArticolo" />
+            </Principal>
+            <Dependent Role="tblArticoliQualifiche">
+              <PropertyRef Name="IDArticolo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Investimenti_Articoli">
+          <End Role="tblArticoli" Type="Self.tblArticoli" Multiplicity="0..1" />
+          <End Role="tblInvestimenti" Type="Self.tblInvestimenti" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblArticoli">
+              <PropertyRef Name="IDArticolo" />
+            </Principal>
+            <Dependent Role="tblInvestimenti">
+              <PropertyRef Name="IDArticolo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Prezzi_Articoli">
+          <End Role="tblArticoli" Type="Self.tblArticoli" Multiplicity="0..1" />
+          <End Role="tblArticoliPrezzi" Type="Self.tblArticoliPrezzi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblArticoli">
+              <PropertyRef Name="IDArticolo" />
+            </Principal>
+            <Dependent Role="tblArticoliPrezzi">
+              <PropertyRef Name="IDArticolo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vendite_ArticoliPrezzi">
+          <End Role="tblArticoliPrezzi" Type="Self.tblArticoliPrezzi" Multiplicity="0..1" />
+          <End Role="tblVendite" Type="Self.tblVendite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblArticoliPrezzi">
+              <PropertyRef Name="IDArticoloPrezzo" />
+            </Principal>
+            <Dependent Role="tblVendite">
+              <PropertyRef Name="IDArticoloPrezzo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ArticoliQualifiche_Qualifiche">
+          <End Role="tblQualifiche" Type="Self.tblQualifiche" Multiplicity="0..1" />
+          <End Role="tblArticoliQualifiche" Type="Self.tblArticoliQualifiche" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblQualifiche">
+              <PropertyRef Name="IDQualifica" />
+            </Principal>
+            <Dependent Role="tblArticoliQualifiche">
+              <PropertyRef Name="IDQualifica" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UtentiArticoliQualifiche_ArticoliQualifiche">
+          <End Role="tblArticoliQualifiche" Type="Self.tblArticoliQualifiche" Multiplicity="0..1" />
+          <End Role="tblUtentiArticoliQualifiche" Type="Self.tblUtentiArticoliQualifiche" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblArticoliQualifiche">
+              <PropertyRef Name="IDArticoloQualifica" />
+            </Principal>
+            <Dependent Role="tblUtentiArticoliQualifiche">
+              <PropertyRef Name="IDArticoloQualifica" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Investimenti_Utenti">
+          <End Role="tblUtenti" Type="Self.tblUtenti" Multiplicity="0..1" />
+          <End Role="tblInvestimenti" Type="Self.tblInvestimenti" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUtenti">
+              <PropertyRef Name="IDUtente" />
+            </Principal>
+            <Dependent Role="tblInvestimenti">
+              <PropertyRef Name="IDUtente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UtentiArticoliQualifiche_Utenti">
+          <End Role="tblUtenti" Type="Self.tblUtenti" Multiplicity="0..1" />
+          <End Role="tblUtentiArticoliQualifiche" Type="Self.tblUtentiArticoliQualifiche" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUtenti">
+              <PropertyRef Name="IDUtente" />
+            </Principal>
+            <Dependent Role="tblUtentiArticoliQualifiche">
+              <PropertyRef Name="IDUtente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="myOpDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblArticoli" EntityType="Self.tblArticoli" />
+          <EntitySet Name="tblArticoliPrezzi" EntityType="Self.tblArticoliPrezzi" />
+          <EntitySet Name="tblArticoliQualifiche" EntityType="Self.tblArticoliQualifiche" />
+          <EntitySet Name="tblInvestimenti" EntityType="Self.tblInvestimenti" />
+          <EntitySet Name="tblQualifiche" EntityType="Self.tblQualifiche" />
+          <EntitySet Name="tblUtenti" EntityType="Self.tblUtenti" />
+          <EntitySet Name="tblUtentiArticoliQualifiche" EntityType="Self.tblUtentiArticoliQualifiche" />
+          <EntitySet Name="tblVendite" EntityType="Self.tblVendite" />
+          <AssociationSet Name="FK_ArticoliQualifiche_Articoli" Association="Self.FK_ArticoliQualifiche_Articoli">
+            <End Role="tblArticoli" EntitySet="tblArticoli" />
+            <End Role="tblArticoliQualifiche" EntitySet="tblArticoliQualifiche" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Investimenti_Articoli" Association="Self.FK_Investimenti_Articoli">
+            <End Role="tblArticoli" EntitySet="tblArticoli" />
+            <End Role="tblInvestimenti" EntitySet="tblInvestimenti" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Prezzi_Articoli" Association="Self.FK_Prezzi_Articoli">
+            <End Role="tblArticoli" EntitySet="tblArticoli" />
+            <End Role="tblArticoliPrezzi" EntitySet="tblArticoliPrezzi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vendite_ArticoliPrezzi" Association="Self.FK_Vendite_ArticoliPrezzi">
+            <End Role="tblArticoliPrezzi" EntitySet="tblArticoliPrezzi" />
+            <End Role="tblVendite" EntitySet="tblVendite" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ArticoliQualifiche_Qualifiche" Association="Self.FK_ArticoliQualifiche_Qualifiche">
+            <End Role="tblQualifiche" EntitySet="tblQualifiche" />
+            <End Role="tblArticoliQualifiche" EntitySet="tblArticoliQualifiche" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UtentiArticoliQualifiche_ArticoliQualifiche" Association="Self.FK_UtentiArticoliQualifiche_ArticoliQualifiche">
+            <End Role="tblArticoliQualifiche" EntitySet="tblArticoliQualifiche" />
+            <End Role="tblUtentiArticoliQualifiche" EntitySet="tblUtentiArticoliQualifiche" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Investimenti_Utenti" Association="Self.FK_Investimenti_Utenti">
+            <End Role="tblUtenti" EntitySet="tblUtenti" />
+            <End Role="tblInvestimenti" EntitySet="tblInvestimenti" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UtentiArticoliQualifiche_Utenti" Association="Self.FK_UtentiArticoliQualifiche_Utenti">
+            <End Role="tblUtenti" EntitySet="tblUtenti" />
+            <End Role="tblUtentiArticoliQualifiche" EntitySet="tblUtentiArticoliQualifiche" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="myOpDBModelStoreContainer" CdmEntityContainer="myOpDBEntities">
+          <EntitySetMapping Name="tblArticoli">
+            <EntityTypeMapping TypeName="myOpDBModel.tblArticoli">
+              <MappingFragment StoreEntitySet="tblArticoli">
+                <ScalarProperty Name="IDArticolo" ColumnName="IDArticolo" />
+                <ScalarProperty Name="CodiceArticolo" ColumnName="CodiceArticolo" />
+                <ScalarProperty Name="DescrizioneArticolo" ColumnName="DescrizioneArticolo" />
+                <ScalarProperty Name="WebLinkArticolo" ColumnName="WebLinkArticolo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblArticoliPrezzi">
+            <EntityTypeMapping TypeName="myOpDBModel.tblArticoliPrezzi">
+              <MappingFragment StoreEntitySet="tblArticoliPrezzi">
+                <ScalarProperty Name="IDArticoloPrezzo" ColumnName="IDArticoloPrezzo" />
+                <ScalarProperty Name="IDArticolo" ColumnName="IDArticolo" />
+                <ScalarProperty Name="TipoPrezzo" ColumnName="TipoPrezzo" />
+                <ScalarProperty Name="Prezzo" ColumnName="Prezzo" />
+                <ScalarProperty Name="DescrizionePrezzo" ColumnName="DescrizionePrezzo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblArticoliQualifiche">
+            <EntityTypeMapping TypeName="myOpDBModel.tblArticoliQualifiche">
+              <MappingFragment StoreEntitySet="tblArticoliQualifiche">
+                <ScalarProperty Name="IDArticoloQualifica" ColumnName="IDArticoloQualifica" />
+                <ScalarProperty Name="IDArticolo" ColumnName="IDArticolo" />
+                <ScalarProperty Name="IDQualifica" ColumnName="IDQualifica" />
+                <ScalarProperty Name="Percentuale" ColumnName="Percentuale" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblInvestimenti">
+            <EntityTypeMapping TypeName="myOpDBModel.tblInvestimenti">
+              <MappingFragment StoreEntitySet="tblInvestimenti">
+                <ScalarProperty Name="IDInvestimento" ColumnName="IDInvestimento" />
+                <ScalarProperty Name="IDUtente" ColumnName="IDUtente" />
+                <ScalarProperty Name="IDArticolo" ColumnName="IDArticolo" />
+                <ScalarProperty Name="DataInvestimento" ColumnName="DataInvestimento" />
+                <ScalarProperty Name="Finalita" ColumnName="Finalita" />
+                <ScalarProperty Name="Investimento" ColumnName="Investimento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblQualifiche">
+            <EntityTypeMapping TypeName="myOpDBModel.tblQualifiche">
+              <MappingFragment StoreEntitySet="tblQualifiche">
+                <ScalarProperty Name="IDQualifica" ColumnName="IDQualifica" />
+                <ScalarProperty Name="CodiceQualifica" ColumnName="CodiceQualifica" />
+                <ScalarProperty Name="DescrizioneQualifica" ColumnName="DescrizioneQualifica" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblUtenti">
+            <EntityTypeMapping TypeName="myOpDBModel.tblUtenti">
+              <MappingFragment StoreEntitySet="tblUtenti">
+                <ScalarProperty Name="IDUtente" ColumnName="IDUtente" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="DataInserimento" ColumnName="DataInserimento" />
+                <ScalarProperty Name="NomeUtente" ColumnName="NomeUtente" />
+                <ScalarProperty Name="CognomeUtente" ColumnName="CognomeUtente" />
+                <ScalarProperty Name="RagioneSociale" ColumnName="RagioneSociale" />
+                <ScalarProperty Name="IndirizzoSedeLegale" ColumnName="IndirizzoSedeLegale" />
+                <ScalarProperty Name="CittaSedeLegale" ColumnName="CittaSedeLegale" />
+                <ScalarProperty Name="IndirizzoSedeOperativa1" ColumnName="IndirizzoSedeOperativa1" />
+                <ScalarProperty Name="CittaSedeOperativa1" ColumnName="CittaSedeOperativa1" />
+                <ScalarProperty Name="IndirizzoSedeOperativa2" ColumnName="IndirizzoSedeOperativa2" />
+                <ScalarProperty Name="CittaSedeOperativa2" ColumnName="CittaSedeOperativa2" />
+                <ScalarProperty Name="IndirizzoSedeOperativa3" ColumnName="IndirizzoSedeOperativa3" />
+                <ScalarProperty Name="CittaSedeOperativa3" ColumnName="CittaSedeOperativa3" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Pec" ColumnName="Pec" />
+                <ScalarProperty Name="SitoWeb" ColumnName="SitoWeb" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblUtentiArticoliQualifiche">
+            <EntityTypeMapping TypeName="myOpDBModel.tblUtentiArticoliQualifiche">
+              <MappingFragment StoreEntitySet="tblUtentiArticoliQualifiche">
+                <ScalarProperty Name="IDUtenteArticoloQualifica" ColumnName="IDUtenteArticoloQualifica" />
+                <ScalarProperty Name="IDUtente" ColumnName="IDUtente" />
+                <ScalarProperty Name="IDArticoloQualifica" ColumnName="IDArticoloQualifica" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblVendite">
+            <EntityTypeMapping TypeName="myOpDBModel.tblVendite">
+              <MappingFragment StoreEntitySet="tblVendite">
+                <ScalarProperty Name="IDVendita" ColumnName="IDVendita" />
+                <ScalarProperty Name="IDArticoloPrezzo" ColumnName="IDArticoloPrezzo" />
+                <ScalarProperty Name="DataVendita" ColumnName="DataVendita" />
+                <ScalarProperty Name="QuantitaVendita" ColumnName="QuantitaVendita" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
