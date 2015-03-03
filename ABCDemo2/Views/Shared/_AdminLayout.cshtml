@@ -1,0 +1,12 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div>
+    <ul class="nav navbar-nav">
+        <li>@Html.ActionLink("Admin", "Index", "Admin")</li>
+        <li>@Html.ActionLink("Qualifiche", "Qualifiche", "Admin")</li>
+    </ul>
+</div>
+<h3 style="clear:both;">Area riservata per l'amministrazione dei contenuti</h3>
+@RenderBody()
