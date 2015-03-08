@@ -1,30 +1,28 @@
-﻿@{
+﻿@model List<ABCDemo2.Models.tblQualifiche>
+@{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewBag.Title = "Admin";
 }
-<table>
-    <thead>
+
+@{
+    if (Model.Count > 0)
+    {
+    <table>
+        <thead>
+            <tr>
+                <th>Codice</th>
+                <th>Descrizione</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
         <tr>
-            <th>Campo 1</th>
-            <th>Campo 2</th>
-            <th>Campo 3</th>
+            <td>@item.CodiceQualifica</td>
+            <td>@item.DescrizioneQualifica</td>
         </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Valore 11</td>
-            <td>Valore 12</td>
-            <td>Valore 13</td>
-        </tr>
-        <tr>
-            <td>Valore 21</td>
-            <td>Valore 22</td>
-            <td>Valore 23</td>
-        </tr>
-        <tr>
-            <td>Valore 31</td>
-            <td>Valore 32</td>
-            <td>Valore 33</td>
-        </tr>
-    </tbody>
-</table>
+        }
+        </tbody>
+    </table>
+    }
+}

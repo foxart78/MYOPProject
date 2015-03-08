@@ -6,7 +6,13 @@
     <ul class="nav navbar-nav">
         <li>@Html.ActionLink("Admin", "Index", "Admin")</li>
         <li>@Html.ActionLink("Qualifiche", "Qualifiche", "Admin")</li>
+        <li>@Html.ActionLink("Articoli", "Articoli", "Admin")</li>
+
     </ul>
 </div>
 <h3 style="clear:both;">Area riservata per l'amministrazione dei contenuti</h3>
 @RenderBody()
+
+@section scripts{
+    @RenderSection("scripts", required: false)
+}

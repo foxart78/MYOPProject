@@ -173,6 +173,7 @@
     <Compile Include="Models\Demo1\Persona.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Metadata.cs" />
     <Compile Include="Models\MyOpModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -188,6 +189,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MyOpModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\PartialClasses.cs" />
     <Compile Include="Models\tblArticoli.cs">
       <DependentUpon>MyOpModel.tt</DependentUpon>
     </Compile>
@@ -490,6 +492,7 @@
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Views\Admin\Qualifiche.cshtml" />
+    <Content Include="Views\Admin\Articoli.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

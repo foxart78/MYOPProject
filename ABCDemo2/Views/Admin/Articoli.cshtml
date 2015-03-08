@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "Articoli";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Articoli</h2>
+
+<div id="TabellaArticoli"></div>
+
+@section scripts{
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $("#TabellaArticoli").jtable({
+            title: 'Articoli',
+            actions: {
+                listAction: '@Url.Action("ArticoliList")',
+                createAction: '@Url.Action("ArticoliCreate")',
+                updateAction: '@Url.Action("ArticoliUpdate")',
+                deleteAction: '@Url.Action("ArticoliDelete")'
+                },
+                fields: {
+                    IDArticolo: {
+                        key: true,
+                        list: false
+                    },
+                    CodiceArticolo: {
+                        title: 'Codice articolo'
+                    },
+                    DescrizioneArticolo: {
+                        title: 'Descrizione'
+                    },
+                    WebLinkArticolo: {
+                        title: 'URL'
+                    }
+                }
+            });
+            $('#TabellaArticoli').jtable('load');
+        });
+
+    </script>
+
+}
