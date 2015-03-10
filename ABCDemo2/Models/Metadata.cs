@@ -13,5 +13,15 @@ namespace ABCDemo2.Models
         public string DescrizioneQualifica;
     }
 
-
+    public class tblArticoliMetadata
+    {
+        [StringLength(15)]
+        [Required]
+        public string CodiceArticolo;
+        [Required]
+        [StringLength(200)]
+        public string DescrizioneArticolo;
+        [StringLength(500)]
+        public string WebLinkArticolo;
+    }
 }

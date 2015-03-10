@@ -36,18 +36,24 @@ namespace ABCDemo2.Controllers
         }
 
         [HttpPost]
-        public JsonResult ArticoliList()
+        public JsonResult ArticoliList(
+            int jtStartIndex = 0,
+            int jtPageSize = 0)
         {
             try
             {
                 using (var context = new myOpDBEntities())
                 {
                     var query = from a in context.tblArticoli
+                                orderby(a.IDArticolo)
                                 select(new {a.IDArticolo, a.CodiceArticolo, a.DescrizioneArticolo, a.WebLinkArticolo});
 
-                    var articoli = query.ToList();
 
-                return Json(new { Result = "OK", Records = articoli });
+                    var articoli = query.Skip(jtStartIndex).Take(jtPageSize).ToList();
+
+                    int countArticoli = context.tblArticoli.Count();
+
+                    return Json(new { Result = "OK", Records = articoli, TotalRecordCount = countArticoli });
                 }
             }
             catch (Exception Ex)
@@ -113,6 +119,82 @@ namespace ABCDemo2.Controllers
                 return Json(new { Result = "ERROR", Message = Ex.Message });
             }
         }
+        #endregion
+
+        #region Prezzi
+        [HttpPost]
+        public JsonResult PrezziList(int IDArticolo)
+        {
+            try
+            {
+                using (var context = new myOpDBEntities())
+                {
+                    var query = from p in context.tblArticoliPrezzi
+                                where p.IDArticolo == IDArticolo
+                                select (new { p.IDArticolo, p.IDArticoloPrezzo, p.TipoPrezzo, p.Prezzo, p.DescrizionePrezzo });
+
+                    var prezzi = query.ToList();
+                    return Json(new { Result = "OK", Records = prezzi });
+                }
+            }
+            catch (Exception Ex)
+            {
+                return Json(new { Result = "ERROR", Message = Ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult PrezziCreate(tblArticoliPrezzi ArticoloPrezzo)
+        {
+            try
+            {
+                using (var context = new myOpDBEntities())
+                {
+                    context.tblArticoliPrezzi.Add(ArticoloPrezzo);
+                    context.SaveChanges();
+                    return Json(new { Result = "OK", Record = ArticoloPrezzo });
+                }
+            }
+            catch (Exception Ex)
+            {
+                return Json(new { Result = "ERROR", Message = Ex.Message });
+            }
+        }
+        [HttpPost]
+        public JsonResult PrezziUpdate(tblArticoliPrezzi ArticoloPrezzo)
+        {
+            try
+            {
+                using (var context = new myOpDBEntities())
+                {
+                    context.Entry(ArticoloPrezzo).State = System.Data.Entity.EntityState.Modified;
+                    context.SaveChanges();
+                    return Json(new { Result = "OK"});
+                }
+            }
+            catch (Exception Ex)
+            {
+                return Json(new { Result = "ERROR", Message = Ex.Message });
+            }
+        }
+        [HttpPost]
+        public JsonResult PrezziDelete(tblArticoliPrezzi ArticoloPrezzo)
+        {
+            try
+            {
+                using (var context = new myOpDBEntities())
+                {
+                    context.Entry(ArticoloPrezzo).State = System.Data.Entity.EntityState.Deleted;
+                    context.SaveChanges();
+                    return Json(new { Result = "OK" });
+                }
+            }
+            catch (Exception Ex)
+            {
+                return Json(new { Result = "ERROR", Message = Ex.Message });
+            }
+        }
+
         #endregion
     }
 }

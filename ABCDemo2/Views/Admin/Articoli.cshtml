@@ -13,6 +13,10 @@
     $(document).ready(function () {
         $("#TabellaArticoli").jtable({
             title: 'Articoli',
+            paging: true,
+            pageSize: 10,
+
+            openChildAsAccortition: true,
             actions: {
                 listAction: '@Url.Action("ArticoliList")',
                 createAction: '@Url.Action("ArticoliCreate")',
@@ -23,6 +27,58 @@
                     IDArticolo: {
                         key: true,
                         list: false
+                    },
+                    ArticoloPrezzi:{
+                        title: 'Prezzi',
+                        width: '5%',
+                        create: false,
+                        edit: false,
+                        sorting:false,
+                        display: function (articoloData) {
+                            var $img = $('<img src="https://raw.githubusercontent.com/hikalkan/jtable/ac1937128beb9db58b2bcd802715871f7fb03b57/content/list_metro.png" title="Dettagli" />');
+                            $img.click(function () {
+                                $('#TabellaArticoli').jtable('openChildTable',
+                                    $img.closest('tr'),
+                                    {
+                                        title: 'Articolo: ' + articoloData.record.CodiceArticolo,
+                                        actions: {
+                                            listAction: '/Admin/PrezziList?IDArticolo=' + articoloData.record.IDArticolo,
+                                            createAction: '/Admin/PrezziCreate',
+                                            updateAction: '/Admin/PrezziUpdate',
+                                            deleteAction: '/Admin/PrezziDelete'
+                                        },
+                                        fields: {
+                                            IDArticolo: {
+                                                type: 'hidden',
+                                                defaultValue: articoloData.record.IDArticolo
+                                            },
+                                            IDArticoloPrezzo: {
+                                                key: true,
+                                                create: false,
+                                                edit: false,
+                                                list: false
+                                            },
+                                            TipoPrezzo: {
+                                                title: 'TipoPrezzo',    
+                                            },
+                                            Prezzo: {
+                                                title: 'Prezzo',
+                                                type: 'number',
+                                                display: function (data) {
+                                                    return $('<span>€ ' + data.record.Prezzo + '</span>');
+                                                }
+                                            },
+                                            DescrizionePrezzo: {
+                                                title: 'Descrizione'
+                                            }
+                                        }
+                                    }, function (data) {
+                                        data.childTable.jtable('load');
+                                    });
+
+                            });
+                            return $img;
+                        }
                     },
                     CodiceArticolo: {
                         title: 'Codice articolo'
@@ -41,3 +97,4 @@
     </script>
 
 }
+

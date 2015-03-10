@@ -7,4 +7,10 @@ namespace ABCDemo2.Models
     public partial class tblQualifiche
     {
     }
+
+    [MetadataType (typeof(tblArticoliMetadata))]
+    public partial class tblArticoli
+    {
+
+    }
 }
