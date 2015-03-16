@@ -8,7 +8,10 @@
 <div id="TabellaArticoli"></div>
 
 @section scripts{
+<script src="~/Scripts/ValidationEngine/jquery.validationEngine.js"></script>
+<script src="~/Scripts/ValidationEngine/languages/jquery.validationEngine-it.js"></script>    
 
+<link href="~/Scripts/ValidationEngine/css/validationEngine.jquery.css" rel="stylesheet" />    
     <script type="text/javascript">
     $(document).ready(function () {
         $("#TabellaArticoli").jtable({
@@ -35,7 +38,7 @@
                         edit: false,
                         sorting:false,
                         display: function (articoloData) {
-                            var $img = $('<img src="https://raw.githubusercontent.com/hikalkan/jtable/ac1937128beb9db58b2bcd802715871f7fb03b57/content/list_metro.png" title="Dettagli" />');
+                            var $img = $('<img src="/Scripts/jtable/themes/metro/list_metro.png" title="Dettagli" />');
                             $img.click(function () {
                                 $('#TabellaArticoli').jtable('openChildTable',
                                     $img.closest('tr'),
@@ -63,7 +66,6 @@
                                             },
                                             Prezzo: {
                                                 title: 'Prezzo',
-                                                type: 'number',
                                                 display: function (data) {
                                                     return $('<span>€ ' + data.record.Prezzo + '</span>');
                                                 }
@@ -71,7 +73,19 @@
                                             DescrizionePrezzo: {
                                                 title: 'Descrizione'
                                             }
-                                        }
+                                        },
+                                        
+                                            formCreated: function (event, dataP) {
+                                                dataP.form.find('input[name="Prezzo"]').addClass('validate[required,custom[currency]]');
+                                                dataP.form.validationEngine();
+                                            },
+                                            formSubmitting: function (event, dataP) {
+                                                return dataP.form.validationEngine('validate');
+                                            },
+                                            formClosed: function (event, dataP) {
+                                                dataP.form.validationEngine('hide');
+                                                dataP.form.validationEngine('detach');
+                                            }
                                     }, function (data) {
                                         data.childTable.jtable('load');
                                     });
@@ -87,8 +101,22 @@
                         title: 'Descrizione'
                     },
                     WebLinkArticolo: {
-                        title: 'URL'
+                        title: 'URL',
+                        defaultValue: 'http://'
                     }
+                },
+
+                formCreated: function (event, data) {
+                    data.form.find('input[name="CodiceArticolo"]').addClass('validate[required]');
+                    data.form.find('input[name="WebLinkArticolo"]').addClass('validate[required,custom[url]]');
+                    data.form.validationEngine();
+                },
+                formSubmitting: function (event, data) {
+                    return data.form.validationEngine('validate');
+                },
+                formClosed: function (event, data) {
+                    data.form.validationEngine('hide');
+                    data.form.validationEngine('detach');
                 }
             });
             $('#TabellaArticoli').jtable('load');
